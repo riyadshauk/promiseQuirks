@@ -1,15 +1,8 @@
 const { EventEmitter } = require('events');
 
-const ee = new EventEmitter();
-
-ee.emit('blah');
-
-ee.addListener('blah', () => console.log('blah emitted'));
-
 const trueAsyncThrowingFunction = async () => new Promise(() => {
   setTimeout(() => {
-    // throw new Error('Error thrown in timeout!');
-    ee.emit('asyncError', new Error('Error thrown in timeout!'));
+    throw new Error('Error thrown in timeout!');
   }, 100);
 });
 
@@ -29,13 +22,13 @@ const asyncTestOfTrueAsyncFunctionsWithErrors = async () => {
   console.debug('Successfully reached the end of asyncTestOfTrueAsyncFunctionsWithErrors without crashing');
 };
 
-console.debug('ee:', ee);
+process.addListener('uncaughtException', err => {
+  console.debug('uncaughtException, err:', err);
+});
 
-console.debug('Huh? Notice that ee has a "blah" event registered, with eventsCount of 1, but nothing else...');
-
-ee.addListener('asyncError', () => {
-  console.debug('asyncError event emitted');
-}); // this line has a RT error for some strange reason (HOW? unclear why/how), breaking the program.
+process.addListener('exit', () => {
+  console.debug('exit');
+}); // this code still exits, no solution here for undoing an exception
 
 (async () => {
   await asyncTestOfTrueAsyncFunctionsWithErrors();
