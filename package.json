@@ -1,0 +1,14 @@
+{
+  "name": "promisequirks",
+  "version": "1.0.0",
+  "description": "Playing around with promises and async/await in error scenarios, trying to properly handle errors.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "url": "https://github.com/riyadshauk/promiseQuirks.git"
+  },
+  "author": "Riyad Shauk",
+  "license": "MIT"
+}
